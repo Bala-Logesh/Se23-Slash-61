@@ -2,7 +2,7 @@
 import uvicorn
 from typing import Optional
 from typing import List
-from fastapi import FastAPI
+from fastapi import FastAPI,Depends, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
 from fastapi.responses import FileResponse
@@ -19,6 +19,18 @@ from sqlalchemy import select,distinct
 from celery import Celery
 import scraper.formattr as form
 from scraper.scraper import httpsGet,findConfig
+
+#added by sahana
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from jose import JWTError, jwt
+from passlib.context import CryptContext
+from sqlalchemy.orm import Session
+
+# Secret key and algorithm for JWT
+SECRET_KEY = "83daa0256a2289b0fb23693bf1f6034d44396675749244721a2b20e896e11662"
+ALGORITHM = "HS256"
+ACCESS_TOKEN_EXPIRE_MINUTES = 30
+#added by sahana
 
 
 # response type define
@@ -318,6 +330,57 @@ class UserCreatePy(BaseModel):
     password: str
     email: str
 
+# Define Pydantic models for authentication
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+class TokenData(BaseModel):
+    username: Optional[str] = None
+
+# Create a CryptContext for password hashing
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+
+# Function to verify password
+def verify_password(plain_password, hashed_password):
+    return pwd_context.verify(plain_password, hashed_password)
+
+# Function to create a password hash
+def get_password_hash(password):
+    return pwd_context.hash(password)
+
+# Function to get a user from the database
+def get_user(db: Session, username: str):
+    return db.query(UserCreate).filter(UserCreate.username == username).first()
+
+# Function to authenticate a user
+def authenticate_user(db: Session, username: str, password: str):
+    user = get_user(db, username)
+    if not user or user.password!= password:
+        return None
+    return user
+
+# Function to create an access token
+def create_access_token(data: dict, expires_delta: timedelta | None = None):
+    to_encode = data.copy()
+    if expires_delta:
+        expire = datetime.utcnow() + expires_delta
+    else:
+        expire = datetime.utcnow() + timedelta(minutes=15)
+
+    to_encode.update({"exp": expire, "sub": data.get("username")})
+    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+    return encoded_jwt
+
+# Dependency to get the database session
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
 #api end point for creating user in db
 @app.post("/users/",response_model= UserCreatePy) 
 async def create_user(user:UserRegister):
@@ -328,6 +391,17 @@ async def create_user(user:UserRegister):
     db.refresh(db_user)
     db.close()
     return db_user
+
+# Token endpoint for user authentication
+@app.post("/token", response_model=Token)
+async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
+    user = authenticate_user(db, form_data.username, form_data.password)
+    if not user:
+        raise HTTPException(status_code=400, detail="Incorrect username or password")
+
+    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token = create_access_token(data={"sub": user.username}, expires_delta=access_token_expires)
+    return {"access_token": access_token, "token_type": "bearer"}
     
 class WatchListPy(BaseModel):
     user_id:int
