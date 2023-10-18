@@ -7,6 +7,8 @@ import json
 
 # local imports
 from scraper.formattr import formatTitle
+import ssl
+ssl._create_default_https_context = ssl._create_unverified_context
 
 # configs
 
