@@ -21,7 +21,7 @@ def httpsGet(URL):
         HTML of page we requested
     """
     headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36',  # noqa: E501
+        "User-Agent": "Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/117.0.0.0+Safari/537.36",    
         'Accept-Encoding': 'gzip, deflate',
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
         'DNT': '1',
@@ -37,6 +37,32 @@ def httpsGet(URL):
     else:
         # TODO add logger
         return None
+    
+def congifMappingFunction(url):
+    second_part = url.split(".")[1]
+
+    # firstcharacter after'.'
+    w = second_part[0]
+    if w == "a":
+        return AMAZON
+    elif w == "w":
+        return WALMART
+    elif w == "c":
+        return COSTCO
+    elif w == "b":
+        return BESTBUY
+    elif w == "t":
+        # https://www.target.com/s?searchTerm=mobile+phone&tref=typeahead%7Cterm%7Cmobile+phone%7C%7C%7Chistory
+        start_index = url.find("=")
+        end_index = url.find("&")
+        substring = url[start_index + 1 : end_index]
+        return scrape_target(substring)
+    elif w == "e":
+        # https://www.ebay.com/sch/i.html?_nkw=keyboard
+        s_index = url.find("=")
+        sub = url[s_index:]
+        return scrape_ebay(sub)
+
 
 
 def search(query, config):
@@ -69,10 +95,22 @@ def search(query, config):
     results = page.find_all(config['item_component'], config['item_indicator'])
     products = []
     for res in results:
-        title = res.select(config['title_indicator'])
-        price = res.select(config['price_indicator'])
-        link = res.select(config['link_indicator'])
-        product = form.formatResult(config['site'], title, price, link)
+        title = res.select(config["title_indicator"])
+        if title == []:
+            continue
+        price = res.select(config["price_indicator"])
+        if price == []:
+            continue
+        link = res.select(config["link_indicator"])
+        image = res.select(config["image_indicator"])
+        tags_as_strings = [str(tag) for tag in image]
+        #print(tags_as_strings)
+        image = "".join(tags_as_strings)
+        # url_start=image.find("src=")
+        # url_end=image.find(" srcset=")
+        # img=image[url_start+4:url_end]
+        #print(img)
+        product = form.formatResult(config["site"], title, price, link, tags_as_strings)
         products.append(product)
     return products
 

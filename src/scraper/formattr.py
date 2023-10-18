@@ -16,30 +16,52 @@ the required format.
 """
 
 
-def formatResult(website, titles, prices, links):
+def formatResult(website, titles, prices, links,images):
     """
     The formatResult function takes the scraped HTML as input, and extracts the
     necessary values from the HTML code. Ex. extracting a price '$19.99' from
     a paragraph tag.
     """
     
-    title, price, link = '', '', ''
+    title, price, link,image = '', '', '',''
     if titles:
         title = titles[0].get_text().strip()
     if prices:
         price = prices[0].get_text().strip()
     if links:
         link = links[0]['href']
+    if images:
+        image= formatimageURL(images,website)
     product = {
         'timestamp': datetime.now().strftime("%d/%m/%Y %H:%M:%S"),
         "title": formatTitle(title),
         "price": price,
         "link": f'www.{website}.com{link}',
         "website": website,
+        "image":image
     }
     if website == 'costco' or website == 'target':
         product['link'] = f'{link}'
     return product
+
+def formatimageURL(tags_as_string,website):
+    print(website)
+    image = "".join(tags_as_string)
+    if(website=="walmart"):
+        url_start=image.find("src=")
+        url_end=image.find(" srcset=")
+        img=image[url_start+4:url_end]
+        return img
+    elif website=="costco":
+        url_start=image.find("src=")
+        url_end=image.find(" height=")
+        img=image[url_start+4:url_end]
+        return img
+    elif website=="bestbuy":
+        url_start=image.find("src=")
+        url_end=image.find(" srcset=")
+        img=image[url_start+4:url_end]
+        return img
 
 
 def sortList(arr, sortBy, reverse):
@@ -76,6 +98,20 @@ def formatSearchQueryForCostco(query):
         formattedQuery += '+'
     formattedQuery = formattedQuery[:-1]
     return formattedQuery
+
+def formatSearchQueryForTarget(query):
+    """
+    The formatSearchQueryForTarget function formats the search string into a string that
+    can be sent as a url paramenter.
+    """
+    queryStrings = query.split(' ')
+    formattedQuery = ""
+    for str in queryStrings:
+        formattedQuery += str
+        formattedQuery += '+'
+    formattedQuery = formattedQuery[:-1]
+    return formattedQuery
+
 
 
 def formatTitle(title):
