@@ -3,6 +3,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import Routing from "./routing/Routing";
 import { AuthContextProvider } from "./context/AuthContext";
 import { DataContextProvider } from "./context/DataContext";
+import Navigation from "./components/Navigation";
 
 /**
  * Main point of rendering for the interactive web page
@@ -14,6 +15,7 @@ function App() {
       <AuthContextProvider>
         <DataContextProvider>
           <Router>
+            <Navigation/>
             <Routing />
           </Router>
         </DataContextProvider>
