@@ -41,7 +41,14 @@ class Item(Base):
     site = Column(String)
     price = Column(Float)
     date = Column(TIMESTAMP)
-        
+
+class ItemValue(Base):
+    __tablename__ = "itemvalue"
+    value_id = Column(Integer,primary_key=True)
+    item_id = Column(Integer,ForeignKey("watchlists.item_id",ondelete="CASCADE"))
+    price = Column(Float)
+    date = Column(TIMESTAMP)
+
 try:
     Base.metadata.create_all(engine)
 

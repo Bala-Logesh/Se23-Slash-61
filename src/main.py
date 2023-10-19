@@ -13,13 +13,13 @@ import csv
 import scraper.scraper as scr
 
 #added by vdeenda
-from models import UserCreate,Item,SessionLocal,engine,WatchList
+from models import UserCreate,Item,SessionLocal,engine,WatchList,ItemValue
 from datetime import datetime,timedelta
 from sqlalchemy import select,distinct
 from celery import Celery
 import scraper.formattr as form
-from scraper.scraper import httpsGet,findConfig
-
+from scraper.scraper import httpsGet,findConfig,scrapeProduct
+import requests
 
 # response type define
 class jsonScraps(BaseModel):
@@ -365,12 +365,28 @@ def checkItem(item:Item):
 def addToWatchList(watchlist,item_id_master,my_date):
     db = SessionLocal() 
     item_watchlist = WatchList(user_id=watchlist.user_id,item_id=item_id_master,price=watchlist.price,date=my_date)
-    #print(item_watchlist.user_id,item_watchlist.item_id,item_watchlist.price,item_watchlist.date)
     db.add(item_watchlist)
     db.commit()
     db.refresh(item_watchlist)
     db.close()
     return    
+
+def addToItemValue(item_id,price,scrape_time):
+    db = SessionLocal()
+    stmt = select(ItemValue.price).where(ItemValue.item_id == item_id)
+    price_db = stmt.execute(stmt).fetchall()
+    scraped_item = ItemValue(item_id = item_id,price = float(price[1:]),date = scrape_time)
+    db.add(scraped_item)
+    db.commit()
+    db.refresh(scraped_item)
+    db.close()
+    #If the price scraped is less that what we already have, send email
+    if price_db < price:
+          #send email notif here
+          #also you should update the new min value in watchlist table for this item_id
+        print('inside email block')
+    
+    return
 
 #Scheduler task
 urlList = set()
@@ -383,32 +399,20 @@ def check_database_record():
     for item_id in item_id_lists:
         stmt2 = select(Item.link,Item.site).where(Item.item_id == item_id[0])
         res = db.execute(stmt2).fetchall()
-        urlList.add((res[0][0],res[0][1]))
+        urlList.add((res[0][0],res[0][1],item_id[0]))
     db.close()
     #scrape these links present in urlList
     for url in urlList:
-        page =  httpsGet(url[0])
-        if not page:
-            print('page not found')
-            return
-        config = findConfig(url[1])   #custom function to map url to website name to retrieve config file
-        results = page.find_all(config['item_component'], config['item_indicator']) #results not returning. WHY???
-        print('results:',results)
-        priceList = []
-        for res in results:
-            title = res.select(config['title_indicator'])
-            price = res.select(config['price_indicator'])
-            link = res.select(config['link_indicator'])
-            product = form.formatResult(config['site'], title, price, link)
-            priceList.append(product)
-        #print(len(priceList))
-    #add logic for checking lowest price and sending email
+        price = scrapeProduct(url[0],url[1])
+        item_id = url[2]
+        current_time = datetime.now()
+        addToItemValue(item_id,price,current_time)  #adding scraped item to database
     return
 
 celeryapp.conf.beat_schedule = {
     'check-database-record': {
         'task': 'main.check_database_record',
-        'schedule': timedelta(seconds=30),
+        'schedule': timedelta(seconds=50),
     },
 }
 if __name__ == "__main__":

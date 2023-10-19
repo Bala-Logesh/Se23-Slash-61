@@ -138,3 +138,26 @@ def findConfig(site):
     elif site == 'bestbuy':
         return BESTBUY
     return scrape_ebay
+
+def scrapeProduct(url,site):
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36',  # noqa: E501
+        'Accept-Encoding': 'gzip, deflate',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+        'DNT': '1',
+        'Connection': 'keep-alive',
+        'Upgrade-Insecure-Requests': '1',
+        'Cache-Control': 'no-cache'
+    }
+    s = requests.Session()
+    page = s.get(url, headers=headers)
+    if page.status_code == 200:
+        if site == 'walmart':    #logic added only for walmart, etend for other websites too
+            soup = BeautifulSoup(page.content, "html.parser")
+            res = soup.find("span",{"itemprop":"price"})
+            price = res.text.strip()
+            return price
+    else:
+        # TODO add logger
+        print('Failure')
+    return
