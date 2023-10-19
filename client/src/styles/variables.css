@@ -1,0 +1,11 @@
+:root {
+  --bg-primary: #efecf6;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #b8b0cb;
+
+  --text-primary: #131236;
+  --text-secondary: #00000080;
+
+  --text-success: green;
+  --text-error: red;
+}

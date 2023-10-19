@@ -1,0 +1,76 @@
+.link {
+  color: var(--text-secondary);
+  font-size: 1rem;
+}
+
+.link:hover,
+.link:focus {
+  border-bottom: 1px solid var(--text-secondary);
+}
+
+button {
+  background-color: var(--bg-tertiary);
+  padding: 10px;
+  border-radius: 50px;
+  color: var(--bg-secondary);
+  font-weight: 500;
+  cursor: pointer;
+  width: 100%;
+}
+
+.buttonmb20 {
+  margin-bottom: 20px;
+}
+
+button a {
+  color: var(--bg-secondary);
+}
+
+.success {
+  color: var(--text-success);
+}
+
+.error {
+  color: var(--text-error);
+}
+
+.cp {
+  cursor: pointer;
+}
+
+.pagetitle {
+  color: var(--text-primary);
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+button.link {
+  outline: none;
+  border: 0;
+  background-color: transparent;
+  border-radius: 0;
+  font-weight: 500;
+  cursor: pointer;
+  color: var(--text-primary);
+  padding: 0px;
+  width: auto;
+}
+
+.button-wrapper {
+  width: 100px;
+  text-align: left;
+}
+
+.button-wrapper:first-of-type {
+  text-align: right;
+}
+
+.imgcontainer {
+  width: 120px;
+  height: 120px;
+}
+
+.text {
+  color: var(--text-primary);
+  font-weight: 500;
+}
