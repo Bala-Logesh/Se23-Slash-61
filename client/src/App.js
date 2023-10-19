@@ -4,6 +4,7 @@ import Routing from "./routing/Routing";
 import { AuthContextProvider } from "./context/AuthContext";
 import { DataContextProvider } from "./context/DataContext";
 import Navigation from "./components/Navigation";
+import Footer from "./components/Footer";
 
 /**
  * Main point of rendering for the interactive web page
@@ -17,6 +18,7 @@ function App() {
           <Router>
             <Navigation/>
             <Routing />
+            <Footer />
           </Router>
         </DataContextProvider>
       </AuthContextProvider>

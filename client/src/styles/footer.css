@@ -1,0 +1,14 @@
+.footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: auto 20px;
+  }
+  
+  .footer p {
+    margin-left: -20px;
+  }
+  
+  .footer span {
+    color: var(--text-error);
+  }
