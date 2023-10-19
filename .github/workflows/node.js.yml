@@ -5,14 +5,12 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
-
+    branches: [main]
 
 jobs:
   build:
-    
     runs-on: ubuntu-latest
 
     strategy:
@@ -21,21 +19,31 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-    - uses: actions/checkout@v2
-      with:
-        working-directory: ./client
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v2
-      with:
-        node-version: ${{ matrix.node-version }}
-#         working-directory: './client'
-        cache: 'npm'
-        cache-dependency-path: client/package-lock.json
-    - run: npm ci
-      working-directory: 'client'
-    - run: npm run build --if-present
-      env:
-        CI: false
-      working-directory: 'client'
-    - run: npm run test
-      working-directory: 'client'
+      - uses: actions/checkout@v2
+        with:
+          working-directory: ./client
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          #         working-directory: './client'
+          cache: "npm"
+          cache-dependency-path: client/package-lock.json
+      - run: npm ci
+        working-directory: "client"
+      - run: npm run build --if-present
+        env:
+          CI: false
+        working-directory: "client"
+      - run: npm test -- --coverage
+        working-directory: "client"
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          working-directory: ./client
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./clover.xml
+          flags: unittests # optional
+          name: codecov-umbrella # optional
+          fail_ci_if_error: true # optional (default = false)
+          verbose: true # optional (default = false)
