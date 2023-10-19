@@ -30,11 +30,13 @@ def test_formatResults():
     """
     Checks the formatResults function
     """
+    timestamp='timestamp'
     titles = [BeautifulSoup('<div class="someclass">title  </div>', "html.parser")]
     prices = [BeautifulSoup('<div class="someclass">$0.99  </div>', "html.parser")]
-    links = []
+    links = [{"href":"/bestbuy"}]
+    image="<img alt='HP - 17.3 HD+ Laptop - AMD Ryzen 3 7320U - 8GB Memory - 256GB SSD - Natural Silver - Front_Zoom' class=product-image src=https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6554/6554443_sd.jpg;maxHeight=200;maxWidth=300 srcset=https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6554/6554443_sd.jpg;maxHeight=400;maxWidth=600 2x/>"
 
-    product = formatter.formatResult("example", titles, prices, links)
-    ans = {"title":"title", "price":"$0.99", "website":"example"}
+    product = formatter.formatResult("bestbuy", titles, prices, links,image)
+    ans = {"timestamp":"timestamp","title":"title", "price":"$0.99", "website":"bestbuy","links":"www.bestbuy.com/bestbuy","image":"https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6554/6554443_sd.jpg;maxHeight=200;maxWidth=300"}
 
-    assert product["title"] == ans["title"] and product["price"] == ans["price"] and product["website"] == ans["website"]
+    assert product["title"] == ans["title"] and product["price"] == ans["price"]  and product["website"] == ans["website"] and product["link"]==ans["links"] and product["image"] ==ans["image"]

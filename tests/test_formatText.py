@@ -29,3 +29,20 @@ def test_formatTitle():
     """
     assert formatter.formatTitle("0"*50) == "0"*40+"..."
     assert formatter.formatTitle("0"*5) == "0"*5
+
+def formatSearchQueryForTarget():
+    """
+    Checks for the Search Query for Target
+    """
+    assert formatter.formatSearchQueryForTarget(" 7 8")=="7+8"
+    assert formatter.formatSearchQueryForTarget("C D")=="C+D"
+    assert formatter.formatSearchQueryForTarget("DEF")=="DEF"
+
+def formatSearchQueryForCostco():
+    """
+    Checks for the Search Query for Target
+    """
+    assert formatter.formatSearchQueryForCostco(" 9 1")=="9+1"
+    assert formatter.formatSearchQueryForCostco("C D")=="C+D"
+    assert formatter.formatSearchQueryForCostco("GHI")=="GHI"
+
