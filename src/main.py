@@ -367,7 +367,7 @@ def get_password_hash(password):
 
 # Function to get a user from the database
 def get_user_by_email(db: Session, email: str):
-    return db.query(UserCreate).filter(UserCreate.username == email).first()
+    return db.query(UserCreate).filter(UserCreate.email == email).first()
 
 # Function to authenticate a user
 def authenticate_user(db: Session, email: str, password: str):
