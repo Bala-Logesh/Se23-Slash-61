@@ -331,9 +331,12 @@ class UserCreatePy(BaseModel):
     email: str
 
 # Define Pydantic models for authentication
-class Token(BaseModel):
+class LoginResponse(BaseModel):
     access_token: str
     token_type: str
+    user_id: int
+    email: str
+    username:str
 
 class LoginUser(BaseModel):
     email: str
@@ -394,7 +397,7 @@ async def create_user(user:UserRegister):
     return db_user
 
 # Token endpoint for user authentication
-@app.post("/login", response_model=Token)
+@app.post("/login", response_model=LoginResponse)
 async def login_for_access_token(user: LoginUser, db: Session = Depends(get_db)):
     user = authenticate_user(db, user.email, user.password)
     if not user:
@@ -402,7 +405,7 @@ async def login_for_access_token(user: LoginUser, db: Session = Depends(get_db))
 
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = create_access_token(data={"sub": user.email}, expires_delta=access_token_expires)
-    return {"access_token": access_token, "token_type": "bearer"}
+    return {"access_token": access_token, "token_type": "bearer", "user_id": user.user_id, "email": user.email, "username": user.username}
     
 class WatchListPy(BaseModel):
     user_id:int
