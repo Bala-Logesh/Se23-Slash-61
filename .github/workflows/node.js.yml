@@ -41,9 +41,4 @@ jobs:
         uses: codecov/codecov-action@v3
         with:
           working-directory: ./client
-          token: ${{ secrets.CODECOV_TOKEN }}
-          files: ./clover.xml
-          flags: unittests # optional
-          name: codecov-umbrella # optional
-          fail_ci_if_error: true # optional (default = false)
-          verbose: true # optional (default = false)
+          token: ${{ secrets.CODECOV_TOKEN }})
