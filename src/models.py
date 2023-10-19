@@ -21,7 +21,7 @@ class UserCreate(Base):
     __tablename__ = "users"
     user_id = Column(Integer, primary_key=True, index=True)  
     username = Column(String, index=True)
-    email = Column(String, index = True,unique=True)  #change to unique
+    email = Column(String, index = True,unique=True)
     password = Column(String, index=True)
 
 class WatchList(Base):

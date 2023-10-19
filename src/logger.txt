@@ -31,3 +31,10 @@ bb query:dell
 all query:dell
 cc query:shoes
 cc query:shoes
+tg query:Laptop
+az query:Laptop
+az query:dell laptops
+bb query:dell laptops
+cc query:dell laptops
+eb query:dell laptops
+wm query:dell laptops

@@ -2,7 +2,7 @@
 import uvicorn
 from typing import Optional
 from typing import List
-from fastapi import FastAPI
+from fastapi import FastAPI,Depends, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
 from fastapi.responses import FileResponse
@@ -19,6 +19,19 @@ from sqlalchemy import select,distinct
 from celery import Celery
 import scraper.formattr as form
 from scraper.scraper import httpsGet,findConfig,scrapeProduct
+from  emailService import email_script
+
+#added by sahana
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from jose import JWTError, jwt
+from passlib.context import CryptContext
+from sqlalchemy.orm import Session
+
+# Secret key and algorithm for JWT
+SECRET_KEY = "83daa0256a2289b0fb23693bf1f6034d44396675749244721a2b20e896e11662"
+ALGORITHM = "HS256"
+ACCESS_TOKEN_EXPIRE_MINUTES = 30
+#added by sahana
 import requests
 
 # response type define
@@ -313,13 +326,78 @@ class UserRegister(BaseModel):
     email: str
     confpassword: str
 
+#Pydantic response model for User
 class UserCreatePy(BaseModel):
     username: str
     password: str
     email: str
 
+#Watchlist pydantic model
+
+class WatchListPy(BaseModel):
+    user_id:int
+    price:float
+    date:str
+    link:str
+    site:str
+
+# Define Pydantic models for authentication
+class LoginResponse(BaseModel):
+    access_token: str
+    token_type: str
+    user_id: int
+    email: str
+    username:str
+
+class LoginUser(BaseModel):
+    email: str
+    password: str
+
+# Create a CryptContext for password hashing
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+
+# Function to verify password
+def verify_password(plain_password, hashed_password):
+    return pwd_context.verify(plain_password, hashed_password)
+
+# Function to create a password hash
+def get_password_hash(password):
+    return pwd_context.hash(password)
+
+# Function to get a user from the database
+def get_user_by_email(db: Session, email: str):
+    return db.query(UserCreate).filter(UserCreate.username == email).first()
+
+# Function to authenticate a user
+def authenticate_user(db: Session, email: str, password: str):
+    user = get_user_by_email(db, email)
+    if not user or user.password!= password:
+        return None
+    return user
+
+# Function to create an access token
+def create_access_token(data: dict, expires_delta: timedelta | None = None):
+    to_encode = data.copy()
+    if expires_delta:
+        expire = datetime.utcnow() + expires_delta
+    else:
+        expire = datetime.utcnow() + timedelta(minutes=15)
+
+    to_encode.update({"exp": expire, "sub": data.get("username")})
+    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+    return encoded_jwt
+
+# Dependency to get the database session
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
 #api end point for creating user in db
-@app.post("/users/",response_model= UserCreatePy) 
+@app.post("/register/",response_model= UserCreatePy) 
 async def create_user(user:UserRegister):
     db_user = UserCreate(username=user.username,password=user.password,email=user.email)
     db = SessionLocal()
@@ -328,15 +406,20 @@ async def create_user(user:UserRegister):
     db.refresh(db_user)
     db.close()
     return db_user
-    
-class WatchListPy(BaseModel):
-    user_id:int
-    price:float
-    date:str
-    link:str
-    site:str
+
+# Token endpoint for user authentication
+@app.post("/login", response_model=LoginResponse)
+async def login_for_access_token(user: LoginUser, db: Session = Depends(get_db)):
+    user = authenticate_user(db, user.email, user.password)
+    if not user:
+        raise HTTPException(status_code=400, detail="Incorrect username or password")
+
+    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token = create_access_token(data={"sub": user.email}, expires_delta=access_token_expires)
+    return {"access_token": access_token, "token_type": "bearer", "user_id": user.user_id, "email": user.email, "username": user.username}
 
 
+'''API end point to add an item into watchlist'''
 @app.post("/watchlist/")
 async def add_item(watchlistitem:WatchListPy):
     date_format = "%d/%m/%Y %H:%M:%S"
@@ -355,6 +438,7 @@ async def add_item(watchlistitem:WatchListPy):
         addToWatchList(watchlistitem,results[0][0],my_date)
     return "added"
 
+'''Helper function for /watchlist/ end point'''
 def checkItem(item:Item):
     db = SessionLocal()
     stmt = select(distinct(Item.item_id)).where(Item.link == item.link)
@@ -362,6 +446,7 @@ def checkItem(item:Item):
     db.close()
     return results
 
+'''Helper function for /watchlist/ end point'''
 def addToWatchList(watchlist,item_id_master,my_date):
     db = SessionLocal() 
     item_watchlist = WatchList(user_id=watchlist.user_id,item_id=item_id_master,price=watchlist.price,date=my_date)
@@ -371,44 +456,47 @@ def addToWatchList(watchlist,item_id_master,my_date):
     db.close()
     return    
 
-def addToItemValue(item_id,price,scrape_time):
+'''Add the scraped result performed by the scheduler to database ItemValue'''
+def addToItemValue(item_id,price,scrape_time,user_id):
+    price = float(price[1:])
     db = SessionLocal()
-    stmt = select(ItemValue.price).where(ItemValue.item_id == item_id)
-    price_db = stmt.execute(stmt).fetchall()
-    scraped_item = ItemValue(item_id = item_id,price = float(price[1:]),date = scrape_time)
+    stmt = select(distinct(WatchList.price)).where((WatchList.item_id == item_id)&(WatchList.user_id == user_id))
+    price_db = db.execute(stmt).fetchall()[0][0]
+    scraped_item = ItemValue(item_id = item_id,price = price,date = scrape_time)
     db.add(scraped_item)
     db.commit()
     db.refresh(scraped_item)
     db.close()
     #If the price scraped is less that what we already have, send email
-    if price_db < price:
+    if price_db > price:
+        email_script.main()
           #send email notif here
           #also you should update the new min value in watchlist table for this item_id
-        print('inside email block')
-    
+        
     return
 
-#Scheduler task
-urlList = set()
+#Scheduler routine task
+urlList = set()  #The distinct list of urls that needs to be scraped
 @celeryapp.task
 def check_database_record():
-    #find the item_id associated for watchlist table\
+    #find the item_id associated for watchlist table
     db = SessionLocal()
-    stmt = select(distinct(WatchList.item_id))
-    item_id_lists = db.execute(stmt).fetchall()   #list of item ids for which we have to scrape
-    for item_id in item_id_lists:
-        stmt2 = select(Item.link,Item.site).where(Item.item_id == item_id[0])
+    id_lists = db.query(WatchList.item_id,WatchList.user_id).all()
+    for item_id,user_id in id_lists:
+        stmt2 = select(Item.link,Item.site).where(Item.item_id == item_id)
         res = db.execute(stmt2).fetchall()
-        urlList.add((res[0][0],res[0][1],item_id[0]))
+        urlList.add((res[0][0],res[0][1],item_id,user_id))
     db.close()
+
     #scrape these links present in urlList
     for url in urlList:
         price = scrapeProduct(url[0],url[1])
         item_id = url[2]
         current_time = datetime.now()
-        addToItemValue(item_id,price,current_time)  #adding scraped item to database
+        addToItemValue(item_id,price,current_time,url[3])  #adding scraped item to database
     return
 
+'''Definition of celery scheduler'''
 celeryapp.conf.beat_schedule = {
     'check-database-record': {
         'task': 'main.check_database_record',
