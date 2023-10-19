@@ -1,4 +1,6 @@
 import React from "react";
+import { BrowserRouter as Router } from "react-router-dom";
+import Routing from "./routing/Routing";
 
 /**
  * Main point of rendering for the interactive web page
@@ -6,7 +8,11 @@ import React from "react";
  */
 function App() {
   return (
-    <h1>Slash</h1>
+    <div className="container">
+      <Router>
+        <Routing />
+      </Router>
+    </div>
   );
 }
 
