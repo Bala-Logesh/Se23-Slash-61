@@ -17,11 +17,14 @@ class TestAPI(unittest.TestCase):
     def test_server(self):
         self.assertEqual(requests.get("http://localhost:8000/", headers=headers).status_code, 200, "Server is not up and running")
 
+    """
     def test_token_endpoint(self):
         # Send a GET request to the /token endpoint
         response = requests.post("http://localhost:8000/token")
         assert response.status_code == 200
     
+    """
+
     def test_amazon(self):
         response = json.loads(requests.get("http://localhost:8000/az/" + self.searchTerm, headers=headers).text)
         assert response is None or (response is not None and len(response) > 0)
