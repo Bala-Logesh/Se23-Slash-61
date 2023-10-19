@@ -1,8 +1,8 @@
 import React from "react";
-import ThemeProvider from "@mui/material/styles/ThemeProvider";
-import { theme } from "./configs/theme";
-import Main from "./Main";
 import { BrowserRouter as Router } from "react-router-dom";
+import Routing from "./routing/Routing";
+import { AuthContextProvider } from "./context/AuthContext";
+import { DataContextProvider } from "./context/DataContext";
 
 /**
  * Main point of rendering for the interactive web page
@@ -10,13 +10,15 @@ import { BrowserRouter as Router } from "react-router-dom";
  */
 function App() {
   return (
-    <React.Fragment>
-      <ThemeProvider theme={theme}>
-        <Router>
-          <Main />
-        </Router>
-      </ThemeProvider>
-    </React.Fragment>
+    <div className="container">
+      <AuthContextProvider>
+        <DataContextProvider>
+          <Router>
+            <Routing />
+          </Router>
+        </DataContextProvider>
+      </AuthContextProvider>
+    </div>
   );
 }
 

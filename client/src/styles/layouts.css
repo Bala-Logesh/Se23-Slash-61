@@ -1,0 +1,13 @@
+.flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  display: grid;
+  grid-template-rows: 80px 1fr 40px;
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--bg-primary);
+}
