@@ -15,30 +15,35 @@ class TestAPI(unittest.TestCase):
     searchTerm = "dell laptops"
 
     def test_server(self):
-        self.assertEqual(requests.get("https://slash-app.azurewebsites.net/", headers=headers).status_code, 200, "Server is not up and running")
+        self.assertEqual(requests.get("http://localhost:8000/", headers=headers).status_code, 200, "Server is not up and running")
 
+    def test_token_endpoint(self):
+        # Send a GET request to the /token endpoint
+        response = requests.post("http://localhost:8000/token")
+        assert response.status_code == 200
+    
     def test_amazon(self):
-        response = json.loads(requests.get("https://slash-app.azurewebsites.net/az/" + self.searchTerm, headers=headers).text)
+        response = json.loads(requests.get("http://localhost:8000/az/" + self.searchTerm, headers=headers).text)
         assert response is None or (response is not None and len(response) > 0)
 
     def test_walmart(self):
-        response = json.loads(requests.get("https://slash-app.azurewebsites.net/wm/" + self.searchTerm, headers=headers).text)
+        response = json.loads(requests.get("http://localhost:8000/wm/" + self.searchTerm, headers=headers).text)
         assert response is None or (response is not None and len(response) > 0)
 
     def test_bestbuy(self):
-        response = json.loads(requests.get("https://slash-app.azurewebsites.net/bb/" + self.searchTerm, headers=headers).text)
+        response = json.loads(requests.get("http://localhost:8000/bb/" + self.searchTerm, headers=headers).text)
         assert response is None or (response is not None and len(response) > 0)
 
     def test_target(self):
-        response = json.loads(requests.get("https://slash-app.azurewebsites.net/tg/" + self.searchTerm, headers=headers).text)
+        response = json.loads(requests.get("http://localhost:8000/tg/" + self.searchTerm, headers=headers).text)
         assert response is None or (response is not None and len(response) > 0)
 
     def test_costco(self):
-        response = json.loads(requests.get("https://slash-app.azurewebsites.net/cc/" + self.searchTerm, headers=headers).text)
+        response = json.loads(requests.get("http://localhost:8000/cc/" + self.searchTerm, headers=headers).text)
         assert response is None or (response is not None and len(response) > 0)
 
     def test_ebay(self):
-        response = json.loads(requests.get("https://slash-app.azurewebsites.net/eb/" + self.searchTerm, headers=headers).text)
+        response = json.loads(requests.get("http://localhost:8000/eb/" + self.searchTerm, headers=headers).text)
         assert response is None or (response is not None and len(response) > 0)
 
 

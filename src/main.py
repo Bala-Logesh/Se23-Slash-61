@@ -335,8 +335,9 @@ class Token(BaseModel):
     access_token: str
     token_type: str
 
-class TokenData(BaseModel):
-    username: Optional[str] = None
+class LoginUser(BaseModel):
+    email: str
+    password: str
 
 # Create a CryptContext for password hashing
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -351,12 +352,12 @@ def get_password_hash(password):
     return pwd_context.hash(password)
 
 # Function to get a user from the database
-def get_user(db: Session, username: str):
-    return db.query(UserCreate).filter(UserCreate.username == username).first()
+def get_user_by_email(db: Session, email: str):
+    return db.query(UserCreate).filter(UserCreate.username == email).first()
 
 # Function to authenticate a user
-def authenticate_user(db: Session, username: str, password: str):
-    user = get_user(db, username)
+def authenticate_user(db: Session, email: str, password: str):
+    user = get_user_by_email(db, email)
     if not user or user.password!= password:
         return None
     return user
@@ -393,14 +394,14 @@ async def create_user(user:UserRegister):
     return db_user
 
 # Token endpoint for user authentication
-@app.post("/token", response_model=Token)
-async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
-    user = authenticate_user(db, form_data.username, form_data.password)
+@app.post("/login", response_model=Token)
+async def login_for_access_token(user: LoginUser, db: Session = Depends(get_db)):
+    user = authenticate_user(db, user.email, user.password)
     if not user:
         raise HTTPException(status_code=400, detail="Incorrect username or password")
 
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-    access_token = create_access_token(data={"sub": user.username}, expires_delta=access_token_expires)
+    access_token = create_access_token(data={"sub": user.email}, expires_delta=access_token_expires)
     return {"access_token": access_token, "token_type": "bearer"}
     
 class WatchListPy(BaseModel):
