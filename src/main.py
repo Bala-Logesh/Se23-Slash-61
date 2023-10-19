@@ -41,6 +41,7 @@ class jsonScraps(BaseModel):
     price: str
     website: str
     link: Optional[str] = None
+    image:str
 
 
 # response type for variety count api
@@ -247,9 +248,9 @@ async def items_top_cost_analysis_API(
 def getItemInfoByItemName(args):
 
     scrapers = []
-    scrapers.append('amazon')
+    # scrapers.append('amazon')
     scrapers.append('walmart')
-    scrapers.append('target')
+    # scrapers.append('target')
     scrapers.append('costco')
     scrapers.append('bestbuy')
     scrapers.append('ebay')
@@ -274,7 +275,7 @@ def getVarietyCountByWebsite(itemList):
 
 def getLowestHighestPriceByWebsite(itemList):
     lowest_price_dict = {
-        'amazon': float('inf'), 'walmart': float('inf'), 'target': float('inf'), 'costco': float('inf'), 'bestbuy': float('inf'), 'ebay': float('inf')
+        'amazon': float(0), 'walmart': float('inf'), 'target': float(0), 'costco': float('inf'), 'bestbuy': float('inf'), 'ebay': float('inf')
     }
 
     lowest_price_link_dict = {
@@ -377,7 +378,7 @@ def authenticate_user(db: Session, email: str, password: str):
     return user
 
 # Function to create an access token
-def create_access_token(data: dict, expires_delta: timedelta | None = None):
+def create_access_token(data: dict, expires_delta: timedelta or None = None):
     to_encode = data.copy()
     if expires_delta:
         expire = datetime.utcnow() + expires_delta

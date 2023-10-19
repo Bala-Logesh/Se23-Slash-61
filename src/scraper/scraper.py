@@ -43,9 +43,9 @@ def congifMappingFunction(url):
 
     # firstcharacter after'.'
     w = second_part[0]
-    if w == "a":
-        return AMAZON
-    elif w == "w":
+    # if w == "a":
+    #     return AMAZON
+    if w == "w":
         return WALMART
     elif w == "c":
         return COSTCO

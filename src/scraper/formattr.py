@@ -45,24 +45,23 @@ def formatResult(website, titles, prices, links,images):
     return product
 
 def formatimageURL(tags_as_string,website):
-    print(website)
+
     image = "".join(tags_as_string)
     if(website=="walmart"):
         url_start=image.find("src=")
-        url_end=image.find(" srcset=")
-        img=image[url_start+4:url_end]
+        url_end=image.find(".jp")
+        img=image[url_start+4:url_end+5]
         return img
     elif website=="costco":
-        url_start=image.find("src=")
-        url_end=image.find(" height=")
+        url_start=image.find(" src=")
+        url_end=image.find(" width=")
         img=image[url_start+4:url_end]
         return img
     elif website=="bestbuy":
         url_start=image.find("src=")
-        url_end=image.find(" srcset=")
-        img=image[url_start+4:url_end]
+        url_end=image.find(".jp")
+        img=image[url_start+4:url_end+4]
         return img
-
 
 def sortList(arr, sortBy, reverse):
     """
