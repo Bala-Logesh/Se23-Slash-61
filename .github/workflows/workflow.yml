@@ -22,9 +22,7 @@ jobs:
           pip install pytest-cov
           export PYTHONPATH=src
           cd src
-          python main.py &
-          sleep 5
-          cd ../test
+          python main.py
           pytest --cov=./
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
