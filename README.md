@@ -47,6 +47,8 @@ We have fixed and added a lot of new features to slash.
   ::
   <a href="#page_facing_up-why">Why</a>
   ::
+  <a href="#page_facing_up-why">API</a>
+  ::
   <a href="#golf-future-roadmap">Future Roadmap</a>
   ::
   <a href="#sparkles-contributors">Contributors</a>
@@ -116,6 +118,13 @@ npm run start
 
 - **_Students_**: Students coming to university are generally on a budget and time constraint and generally spend hours wasting time to search for products on Websites. Slash is the perfect tool for these students that slashes all the unnecessary details on a website and helps them get prices for a product across multiple websites.Make the most of this tool in the upcoming Black Friday Sale.
 - **_Data Analysts_**: Finding data for any project is one of the most tedious job for a data analyst, and the datasets found might not be the most recent one. Using slash, they can create their own dataset in real time and format it as per their needs so that they can focus on what is actually inportant.
+
+## :file_cabinet: API
+
+We tested the routes using Postman.
+The JSON file of the requests can be found here
+
+#### [Postman API JSON](./assets/SE%20Project.postman_collection.json) &#128279;
 
 ## :page_facing_up: Why
 
