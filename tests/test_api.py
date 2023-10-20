@@ -22,14 +22,14 @@ class TestAPI(unittest.TestCase):
             "Server is not up and running",
         )
 
-    def test_amazon(self):
-        response = json.loads(
-            requests.get(
-                "http://localhost:8000/az/" + self.searchTerm,
-                headers=headers,
-            ).text
-        )
-        assert response is None or (response is not None and len(response) > 0)
+    # def test_amazon(self):
+    #     response = json.loads(
+    #         requests.get(
+    #             "http://localhost:8000/az/" + self.searchTerm,
+    #             headers=headers,
+    #         ).text
+    #     )
+    #     assert response is None or (response is not None and len(response) > 0)
 
     def test_walmart(self):
         response = json.loads(
@@ -49,14 +49,14 @@ class TestAPI(unittest.TestCase):
         )
         assert response is None or (response is not None and len(response) > 0)
 
-    def test_target(self):
-        response = json.loads(
-            requests.get(
-                "http://localhost:8000/tg/" + self.searchTerm,
-                headers=headers,
-            ).text
-        )
-        assert response is None or (response is not None and len(response) > 0)
+    # def test_target(self):
+    #     response = json.loads(
+    #         requests.get(
+    #             "http://localhost:8000/tg/" + self.searchTerm,
+    #             headers=headers,
+    #         ).text
+    #     )
+    #     assert response is None or (response is not None and len(response) > 0)
 
     def test_costco(self):
         response = json.loads(

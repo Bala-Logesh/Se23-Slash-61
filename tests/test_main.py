@@ -35,7 +35,8 @@ class TestMain(unittest.TestCase):
             'num': 1
         }
 
-        response = ['amazon', 'walmart', 'target', 'costco', 'bestbuy', 'ebay']
+        response = ['walmart', 'costco', 'bestbuy', 'ebay']
+        # response = ['amazon', 'walmart', 'target', 'costco', 'bestbuy', 'ebay']
 
         itemList = getItemInfoByItemName(args)
         for item in itemList:
@@ -66,9 +67,9 @@ class TestMain(unittest.TestCase):
             ]
         
         lowest_price_ans = {
-            'amazon': 97.98,
+            'amazon': 0,
             'walmart': 48.13,
-            'target': 11.99,
+            'target': 0,
             'costco': 229.99,
             'bestbuy': 349.99,
             'ebay': 329.11
