@@ -77,7 +77,8 @@ button {
 }
 
 input,
-input:focus {
+input:focus,
+input:active {
   border: none;
   outline: none;
 }
