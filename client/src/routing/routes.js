@@ -4,6 +4,7 @@ import Register from "../components/Register";
 import Search from "../components/Search";
 import Results from "../components/Results";
 import IndTracking from "../components/IndTracking";
+import Trends from "../components/Trends";
 
 export const routes = [
   {
@@ -44,6 +45,12 @@ export const routes = [
     name: "IndTracking",
     element: <IndTracking />,
     login: true,
+  },
+  {
+    path: "/Trends",
+    name: "trends",
+    element: <Trends />,
+    login: false,
   },
 ];
 
