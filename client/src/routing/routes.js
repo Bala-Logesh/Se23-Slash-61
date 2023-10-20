@@ -3,6 +3,7 @@ import Login from "../components/Login";
 import Register from "../components/Register";
 import Search from "../components/Search";
 import Results from "../components/Results";
+import IndTracking from "../components/IndTracking";
 
 export const routes = [
   {
@@ -36,6 +37,12 @@ export const routes = [
         products={products.filter((product) => product.tracked === true)}
       />
     ),
+    login: true,
+  },
+  {
+    path: "/tracking/:id",
+    name: "IndTracking",
+    element: <IndTracking />,
     login: true,
   },
 ];
