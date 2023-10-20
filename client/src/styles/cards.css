@@ -1,0 +1,40 @@
+.card {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+  
+    width: 100%;
+    max-width: 450px;
+    margin: auto;
+    padding: 40px 40px 20px;
+    max-height: fit-content;
+    border-radius: 20px;
+    background-color: var(--bg-secondary);
+  }
+  
+  .card.result {
+    padding: 15px;
+    gap: 10px;
+  }
+  
+  .result-card-title {
+    display: grid;
+    width: 100%;
+    grid-template-columns: 95% 5%;
+  }
+  
+  .result-card-body {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+  }
+  
+  .result-card-title > * {
+    overflow: hidden;
+  }
+  
+  .cardtext {
+    color: var(--text-primary);
+    font-weight: 500;
+  }
