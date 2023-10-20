@@ -1,26 +1,17 @@
-cff-version: 1.2.0
+cff-version: 1.0.0
 message: "If you use this software, please cite it as below."
 authors:
-- family-names: "Arza"
-  given-names: "Eshita"
-  orcid: "https://orcid.org/0000-0000-0000-0000"
-- family-names: "Gupta"
-  given-names: "Isha"
-  orcid: "https://orcid.org/0000-0000-0000-0000"
-- family-names: "Kalita"
-  given-names: "Rahul"
-  orcid: "https://orcid.org/0000-0000-0000-0000"
-- family-names: "Kiran"
-  given-names: "Kiran"
-  orcid: "https://orcid.org/0000-0000-0000-0000"
-- family-names: "Luis"
-  given-names: "Luis"
-  orcid: "https://orcid.org/0000-0000-0000-0000"
-- family-names: "Vignesh"
-  given-names: "Vignesh"
-  orcid: "https://orcid.org/0000-0000-0000-0000"
-title: "Slash"
+  - family-names: "Sudalaimuthu Pandian"
+    given-names: "Bala Logesh"
+    orcid: "https://orcid.org/0000-0000-0000-0000"
+  - family-names: "Sarvanan"
+    given-names: "Ratish Kumar"
+    orcid: "https://orcid.org/0000-0000-0000-0000"
+  - family-names: "Yelchuri"
+    given-names: "Sahana"
+    orcid: "https://orcid.org/0000-0000-0000-0000"
+  - family-names: "Deen Dayal"
+    given-names: "Vengatesh"
+    orcid: "https://orcid.org/0000-0000-0000-0000"
 version: 2.0.0
-doi: 10.5281/zenodo.5733309
-date-released: 2021-11-28
-url: "https://github.com/NCSU-Group7-SE2021/slash"
+date-released: 2023-10-19

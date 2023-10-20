@@ -44,8 +44,6 @@ We have fixed and added a lot of new features to slash.
   ::
   <a href="#bulb-use-case">Use Case</a>
   ::
-  <a href="#file_cabinet-api">API</a>
-  ::
   <a href="#page_facing_up-why">Why</a>
   ::
   <a href="#golf-future-roadmap">Future Roadmap</a>
@@ -117,40 +115,6 @@ npm run start
 
 - **_Students_**: Students coming to university are generally on a budget and time constraint and generally spend hours wasting time to search for products on Websites. Slash is the perfect tool for these students that slashes all the unnecessary details on a website and helps them get prices for a product across multiple websites.Make the most of this tool in the upcoming Black Friday Sale.
 - **_Data Analysts_**: Finding data for any project is one of the most tedious job for a data analyst, and the datasets found might not be the most recent one. Using slash, they can create their own dataset in real time and format it as per their needs so that they can focus on what is actually inportant.
-
-## :file_cabinet: API
-
-## Documentation
-
-Documentation can be accessed anytime via the below link.
-
-     `https://slash-app-staging.azurewebsites.net/`
-
-## Search Items Api
-
-Wrapper API to fetch slash scrape results. This API provides a one step solution to access scrape results from all our integrated websites.
-
-    https://slash-app-staging.azurewebsites.net/{site}/{item_name}
-
-**Required parameters:**
-
-- **site**:_wm_ for walmart; _eb_ for ebay; _cc_ for costco; _tg_ for target and _bb_ for bustbuy. Alternatively '_all_' in site can be used to get results for all sites.
-
-- **item_name**: items to be searched by slash web api; _examples below_
-
-`https://slash-app-staging.azurewebsites.net/wm/toys`
-
-`https://slash-app-staging.azurewebsites.net/all/dell`
-
-**Optional parameters**
-
-- **relevant**: string relevance: items will be ordered by relevance. Not supported currently.
-- **order_by_col**: string column_name: items will be ordered by the column name. Currently only the 'price' column ordering is supported.
-- **reverse**: boolean val: items will be displayed in the same or the opposite order based on the value of this parameter.
-- **listLengthInd**: integer len(default value is 10): sets the upper limit on the number of entries that will be displayed
-- **export**: boolean val(default value is false): items can be exported in a csv file;; _examples below_
-
-`https://slash-app-staging.azurewebsites.net/all/dell?export=false&listLengthInd=5&order_by_col=price&reverse=false`
 
 ## :page_facing_up: Why
 
