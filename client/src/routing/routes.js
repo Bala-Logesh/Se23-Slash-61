@@ -1,4 +1,5 @@
 import React from "react";
+import Login from "../components/Login";
 
 export const routes = [
   {
@@ -7,4 +8,12 @@ export const routes = [
     element: <h1>Slash</h1>,
     login: false,
   },
+  {
+    path: "/login",
+    name: "Login",
+    element: <Login />,
+    login: false,
+  },
 ];
+
+
