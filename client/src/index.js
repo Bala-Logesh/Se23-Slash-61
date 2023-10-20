@@ -6,6 +6,7 @@ import reportWebVitals from "./reportWebVitals";
 import "./index.css";
 import "./index.css";
 import "./styles/reset.css";
+import "./styles/variables.css";
 import "./styles/layouts.css";
 
 ReactDOM.render(
