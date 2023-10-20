@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import { AuthContext, defaultUserState } from "../context/AuthContext";
+import { AuthContext } from "../context/AuthContext";
+import { logout } from "../utils/helper";
 
 import "../styles/navigation.css";
 
@@ -18,8 +19,8 @@ export default function Navigation() {
 
   useEffect(() => {}, [isLoggedIn]);
 
-  const logout = () => {
-    setUserData(defaultUserState);
+  const logoutUser = () => {
+    logout(setUserData);
 
     navigate("/");
   };
@@ -79,7 +80,7 @@ export default function Navigation() {
           </p>
         )}
         {isLoggedIn && (
-          <NavLink to={""} onClick={logout} className="navlink">
+          <NavLink to={""} onClick={logoutUser} className="navlink">
             Log Out
           </NavLink>
         )}

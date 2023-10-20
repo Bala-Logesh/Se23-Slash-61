@@ -6,52 +6,49 @@ import Results from "../components/Results";
 import IndTracking from "../components/IndTracking";
 import Trends from "../components/Trends";
 
+import products from "../data/products";
+
 export const routes = [
   {
     path: "/",
     name: "Home",
     element: <Search />,
-    login: false,
+    login: false
   },
   {
     path: "/login",
     name: "Login",
     element: <Login />,
-    login: false,
-  }, {
+    login: false
+  },
+  {
     path: "/register",
     name: "Register",
     element: <Register />,
-    login: false,
+    login: false
   },
   {
     path: "/results",
     name: "Result",
     element: <Results products={products} />,
-    login: false,
+    login: false
   },
   {
     path: "/tracking",
     name: "Tracking",
-    element: (
-      <Results
-        products={products.filter((product) => product.tracked === true)}
-      />
-    ),
-    login: true,
+    element: <Results products={products.filter((product) => product.tracked === true)} />,
+    login: true
   },
   {
     path: "/tracking/:id",
     name: "IndTracking",
     element: <IndTracking />,
-    login: true,
+    login: true
   },
   {
     path: "/Trends",
     name: "trends",
     element: <Trends />,
-    login: false,
-  },
+    login: false
+  }
 ];
-
-

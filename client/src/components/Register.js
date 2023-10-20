@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import Card from "./Card";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
+import { axiosPost } from "../utils/axios";
 
 function Register() {
   const navigate = useNavigate();
@@ -47,12 +48,28 @@ function Register() {
       return;
     }
 
-    console.log(formData);
-    return;
+    const url = "http://localhost:8000/users/";
+    const data = await axiosPost(url, formData);
 
-    // Send registration data to the backend API
-    try {
-    } catch (error) {}
+    if (data !== undefined) {
+      // register successful, you can redirect to the login page
+      setRegistered(true);
+
+      setFormData({
+        email: "",
+        password: "",
+        confpassword: "",
+        username: "",
+      });
+
+      setTimeout(() => {
+        setMsg("");
+        navigate("/login");
+      }, 2000);
+    } else {
+      setRegistered(false);
+      setMsg("Registration unsuccessful");
+    }
   };
 
   return (
