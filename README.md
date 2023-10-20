@@ -15,7 +15,7 @@
 
 Do you love shopping? Are you in search of some good deals while shopping online?! Slash is here to help you look for the best deals!
 
-Slash is a publicly accessible web API framework that allows one to scrape the most popular e-commerce websites to get the best deals on the searched items across multiple e-commerce websites. Currently supported websites include [Amazon](https://www.amazon.com/), [Walmart](https://www.walmart.com/), [Target](https://www.target.com/), [BestBuy](https://www.bestbuy.com/), [Costco](https://www.costco.com/) and [EBay](https://www.ebay.com/).
+Slash is a publicly accessible web API framework that allows one to scrape the most popular e-commerce websites to get the best deals on the searched items across multiple e-commerce websites. Currently supported websites include [Walmart](https://www.walmart.com/), [Target](https://www.target.com/), [BestBuy](https://www.bestbuy.com/), [Costco](https://www.costco.com/) and [EBay](https://www.ebay.com/).
 
 - **Fast**: With slash, you can save over 50% of your time by comparing deals across websites within seconds
 - **Easy**: Slash introduces easy to use public APIs to filter, sort and search through the search results
@@ -23,15 +23,16 @@ Slash is a publicly accessible web API framework that allows one to scrape the m
 
 ---
 
-## :rocket: Improvements over Phase-II
+## :rocket: Improvements in Phase-II
 
-We have added a lot of new features to slash in our Phase-III.
+We have fixed and added a lot of new features to slash.
 
-1. A web interface for users to interact with the application in a more native way.
-2. Charts and graphs for better visualization of the results.
-3. Analysis for price prediction of products.
-4. Analysis for variety count of products per e-commerce store.
-
+1. Enchanced the UI of application to improve user experience and provide a visually appealing design.
+2. A new database has been created to facilitate user registration. 
+3. Implemented user authentication using JSON Web Tokens (JWT).
+4. Watchlist Feature: Users can now create and manage watchlists to track the prices of specific items.
+5. We have incorporated a scheduler that regularly checks the prices of items on users' watchlists. 
+6. An email notification is sent to the user when the price of an item in watchlist drops.
 ---
 
 <p align="center">
@@ -68,7 +69,7 @@ We have added a lot of new features to slash in our Phase-III.
 1. Clone the Github repository to a desired location on your computer. You will need [git](https://git-scm.com/) to be preinstalled on your machine. Once the repository is cloned, you will then `cd` into the local repository.
 
 ```
-git clone https://github.com/secheaper/slash.git
+git clone https://github.com/Bala-Logesh/Se23-Slash-61
 cd slash
 ```
 
@@ -111,7 +112,6 @@ npm run start
 - FastAPI : https://fastapi.tiangolo.com
 - ASGI Server - Uvicorn : https://www.uvicorn.org
 - Docker : https://www.docker.com
-- Azure : https://azure.microsoft.com/en-us/
 
 ## :bulb: Use Case
 
@@ -134,11 +134,11 @@ Wrapper API to fetch slash scrape results. This API provides a one step solution
 
 **Required parameters:**
 
-- **site**: _az_ for amazon; _wm_ for walmart; _eb_ for ebay; _cc_ for costco; _tg_ for target and _bb_ for bustbuy. Alternatively '_all_' in site can be used to get results for all sites.
+- **site**:_wm_ for walmart; _eb_ for ebay; _cc_ for costco; _tg_ for target and _bb_ for bustbuy. Alternatively '_all_' in site can be used to get results for all sites.
 
 - **item_name**: items to be searched by slash web api; _examples below_
 
-`https://slash-app-staging.azurewebsites.net/az/toys`
+`https://slash-app-staging.azurewebsites.net/wm/toys`
 
 `https://slash-app-staging.azurewebsites.net/all/dell`
 
@@ -165,22 +165,23 @@ Wrapper API to fetch slash scrape results. This API provides a one step solution
 ## :golf: Future Roadmap
 
 - Host website on a public server so customers can use it
-- Add login feature to store user history to provide features like bookmarking, price drop alerts and many more.
-- Our API can be used by end users such as developers who are tech-savvy individuals looking to get a one stop solution for web scraping ecommerce websites such as Amazon, Target, Ebay,etc along with API access to multiple ecommerce websites. It'll be available directly for access to people without having to dive deep into the code.
-- Chrome Extension using the functionalities of Slash API
-- An iOS or Android application.
+- Scrapping from all E-commerce websites
+- Real-Time updates using Websocket or Server-Sent Events(SSE) to provide users with immediate notifications when price drop occurs websites
+- Third Party authentication using gmail, outlook
+- Forget password can be implemented in the existing UI
+- Graph functionality to be included
+- Database improvisation
+- Implement option to sort by rating
 
 # Team Members
 
-## Phase 3 Team Members
+## Phase 2 Team Members
 
-- [Rahul Kalita](https://github.com/rahulkalita8)
-- [Vignesh Muthukumar](https://github.com/vickymhs)
-- [Eshita Arza](https://github.com/ArzaEshita)
-- [Luis](https://github.com/lgdeloss)
-- [Isha Gupta](https://github.com/isha-bansal0115)
-- [Kiran Teja](https://github.com/kirantejatummuri)
+- [Bala Logesh Sudalaimuthu Pandian](https://github.com/Bala-Logesh)
+- [Ratish Kumar Sarvanan](https://github.com/RatishkumarS)
+- [Sahana Yelchuri](https://github.com/SahanaYelchuri)
+- [Vengatesh Deen Dayal](https://github.com/vengatesh99)
 
 ## :email: Support
 
-For any queries and help, please reach out to us at: SEslash007@gmail.com
+For any queries and help, please reach out to us at: seslash7@gmail.com
