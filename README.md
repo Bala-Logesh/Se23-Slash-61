@@ -1,16 +1,16 @@
 <p align="center"><img width="500" src="./assets/slash.png"></p>
 
-![GitHub](https://img.shields.io/github/license/Urvashi74/slash)
-![github workflow](https://github.com/secheaper/cheaper/actions/workflows/python-app.yml/badge.svg)
-[![DOI](https://zenodo.org/badge/431326985.svg)](https://zenodo.org/badge/latestdoi/431326985)
+![GitHub](https://img.shields.io/github/license/Bala-Logesh/Se23-Slash-61)
+![github workflow](https://github.com/Bala-Logesh/Se23-Slash-61/actions/workflows/python-app.yml/badge.svg)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10023735.svg)](https://doi.org/10.5281/zenodo.10023735)
 ![Github](https://img.shields.io/badge/language-python-red.svg)
 ![Github](https://img.shields.io/badge/language-node-red.svg)
-![GitHub issues](https://img.shields.io/github/issues-raw/NCSU-Group7-SE2021/slash)
-![Github closes issues](https://img.shields.io/github/issues-closed-raw/NCSU-Group7-SE2021/slash)
-![Github pull requests](https://img.shields.io/github/issues-pr/NCSU-Group7-SE2021/slash)
-![Github closed pull requests](https://img.shields.io/github/issues-pr-closed/NCSU-Group7-SE2021/slash)
-[![Node.js CI](https://github.com/NCSU-Group7-SE2021/slash/actions/workflows/node.js.yml/badge.svg)](https://github.com/NCSU-Group7-SE2021/slash/actions/workflows/node.js.yml)
-[![Python Application](https://github.com/NCSU-Group7-SE2021/slash/actions/workflows/python-app.yml/badge.svg)](https://github.com/NCSU-Group7-SE2021/slash/actions/workflows/python-app.yml)
+![Github](https://img.shields.io/badge/language-python-red.svg)
+![GitHub issues](https://img.shields.io/github/issues-raw/Bala-Logesh/Se23-Slash-61)
+![Github closes issues](https://img.shields.io/github/issues-closed-raw/Bala-Logesh/Se23-Slash-61)
+![Github pull requests](https://img.shields.io/github/issues-pr/Bala-Logesh/Se23-Slash-61)
+![Github closed pull requests](https://img.shields.io/github/issues-pr-closed/Bala-Logesh/Se23-Slash-61)
+[![Node.js CI](https://github.com/Bala-Logesh/Se23-Slash-61/actions/workflows/node.js.yml/badge.svg)](https://github.com/Bala-Logesh/Se23-Slash-61/actions/workflows/node.js.yml)
 [![codecov](https://codecov.io/gh/NCSU-Group7-SE2021/slash/branch/main/graph/badge.svg?token=E9TCZQ6NGF)](https://codecov.io/gh/NCSU-Group7-SE2021/slash)
 
 Do you love shopping? Are you in search of some good deals while shopping online?! Slash is here to help you look for the best deals!
@@ -28,11 +28,12 @@ Slash is a publicly accessible web API framework that allows one to scrape the m
 We have fixed and added a lot of new features to slash.
 
 1. Enchanced the UI of application to improve user experience and provide a visually appealing design.
-2. A new database has been created to facilitate user registration. 
+2. A new database has been created to facilitate user registration.
 3. Implemented user authentication using JSON Web Tokens (JWT).
 4. Watchlist Feature: Users can now create and manage watchlists to track the prices of specific items.
-5. We have incorporated a scheduler that regularly checks the prices of items on users' watchlists. 
+5. We have incorporated a scheduler that regularly checks the prices of items on users' watchlists.
 6. An email notification is sent to the user when the price of an item in watchlist drops.
+
 ---
 
 <p align="center">
@@ -58,7 +59,7 @@ We have fixed and added a lot of new features to slash.
 
 ## :movie_camera: Checkout our video
 
-<p align="center"><img width="700" src="./assets/slash-phase3.gif"></p>
+<p align="center"><img width="700" src="./proj2/Slash video.gif"></p>
 
 ---
 
@@ -149,3 +150,5 @@ npm run start
 ## :email: Support
 
 For any queries and help, please reach out to us at: seslash7@gmail.com
+
+- ### [Project 2 README](./proj2/README.md) &#128279;
