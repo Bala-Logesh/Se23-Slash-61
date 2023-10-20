@@ -1,9 +1,26 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import ResultCard from "./ResultCard";
 import { useEffect } from "react";
+import { DataContext } from "../context/DataContext";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
+import { axiosPost } from "../utils/axios";
 
 function Results({ products }) {
-  const newproducts = products;
+  const { productData } = useContext(DataContext);
+  const {
+    userData: { user_id },
+  } = useContext(AuthContext);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (productData.length === 0) {
+      navigate("/");
+    }
+  }, [productData, navigate]);
+
+  const newproducts = productData;
   const pages = Math.ceil(newproducts.length / 6);
 
   const [start, setStart] = useState(0);
@@ -12,8 +29,21 @@ function Results({ products }) {
 
   const [dispProducts, setDispProducts] = useState(null);
 
-  const addremovetrack = (prodid) => {
+  const addremovetrack = async (price, date, link, site) => {
     // Logic to untrack an item
+    price = price.slice(1,-2)
+
+    let prodData = { user_id, price, date, link, site };
+    console.log(prodData)
+
+    const url = "http://localhost:8000/watchlist/";
+    const data = await axiosPost(url, prodData);
+
+    if (data !== undefined) {
+      console.log(data);
+    } else {
+      console.log("Something went wrong");
+    }
   };
 
   useEffect(() => {
@@ -63,8 +93,12 @@ function Results({ products }) {
       </p>
       <div className="results-grid">
         {dispProducts &&
-          dispProducts.map((product) => (
-            <ResultCard key={product.id} product={product} addremovetrack={addremovetrack} />
+          dispProducts.map((product, index) => (
+            <ResultCard
+              key={index}
+              product={product}
+              addremovetrack={addremovetrack}
+            />
           ))}
       </div>
       <div className="form-footer">
@@ -78,7 +112,11 @@ function Results({ products }) {
           | {page} / {pages} |{" "}
         </p>
         <div className="button-wrapper">
-          <button className="link" onClick={goToNextPage} disabled={page === pages}>
+          <button
+            className="link"
+            onClick={goToNextPage}
+            disabled={page === pages}
+          >
             Next
           </button>
         </div>
