@@ -15,12 +15,16 @@ jobs:
     steps:
       - uses: actions/checkout@main
 
-      - name: Generate coverage report
+      - name: Run the tests
         run: |
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
           pip install pytest
           pip install pytest-cov
           export PYTHONPATH=src
+          cd src
+          python main.py &
+          sleep 5
+          cd ../test
           pytest --cov=./
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
