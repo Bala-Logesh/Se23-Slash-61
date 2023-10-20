@@ -11,3 +11,25 @@
   min-height: 100vh;
   background-color: var(--bg-primary);
 }
+
+.result-page-grid {
+  display: grid;
+  width: 100%;
+  grid-template-rows: 50px 1fr 50px;
+  padding: 20px;
+}
+
+.results-grid {
+  max-height: 70vh;
+  overflow-y: auto;
+  display: grid;
+  align-content: start;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 20px;
+}
+
+.chart-page-grid {
+  display: grid;
+  width: 100%;
+  grid-template-rows: 50px 1fr;
+}
