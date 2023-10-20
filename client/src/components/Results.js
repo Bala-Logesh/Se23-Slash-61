@@ -5,11 +5,12 @@ import { DataContext } from "../context/DataContext";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { axiosPost } from "../utils/axios";
+import capitalize from "../utils/capitalize";
 
 function Results({ products }) {
-  const { productData } = useContext(DataContext);
+  const { productData, searchTerm } = useContext(DataContext);
   const {
-    userData: { user_id },
+    userData: { user_id }
   } = useContext(AuthContext);
 
   const navigate = useNavigate();
@@ -31,10 +32,9 @@ function Results({ products }) {
 
   const addremovetrack = async (price, date, link, site) => {
     // Logic to untrack an item
-    price = price.slice(1,-2)
+    price = price.slice(1, -2);
 
     let prodData = { user_id, price, date, link, site };
-    console.log(prodData)
 
     const url = "http://localhost:8000/watchlist/";
     const data = await axiosPost(url, prodData);
@@ -89,16 +89,12 @@ function Results({ products }) {
   return (
     <div className="result-page-grid">
       <p className="pagetitle">
-        You have searched for <b>latptops</b>
+        You have searched for <b>{capitalize(searchTerm)}</b>
       </p>
       <div className="results-grid">
         {dispProducts &&
           dispProducts.map((product, index) => (
-            <ResultCard
-              key={index}
-              product={product}
-              addremovetrack={addremovetrack}
-            />
+            <ResultCard key={index} product={product} addremovetrack={addremovetrack} />
           ))}
       </div>
       <div className="form-footer">
@@ -112,11 +108,7 @@ function Results({ products }) {
           | {page} / {pages} |{" "}
         </p>
         <div className="button-wrapper">
-          <button
-            className="link"
-            onClick={goToNextPage}
-            disabled={page === pages}
-          >
+          <button className="link" onClick={goToNextPage} disabled={page === pages}>
             Next
           </button>
         </div>

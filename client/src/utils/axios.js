@@ -25,7 +25,6 @@ export async function axiosGet(url) {
 }
 
 export async function axiosPost(url, data) {
-  console.log(data)
   try {
     let response = await axios.post(url, data, config);
     return response.data;

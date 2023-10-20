@@ -10,6 +10,7 @@ import "./styles/variables.css";
 import "./styles/layouts.css";
 import "./styles/utils.css";
 import "./styles/graphs.css";
+import "./styles/forms.css";
 
 ReactDOM.render(
   <React.StrictMode>

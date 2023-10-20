@@ -4,6 +4,7 @@ import { AuthContext } from "../context/AuthContext";
 import { logout } from "../utils/helper";
 
 import "../styles/navigation.css";
+import capitalize from "../utils/capitalize";
 
 /**
  * Template for constructing the navigational drawer and appbar
@@ -33,50 +34,30 @@ export default function Navigation() {
         </Link>
 
         {isLoggedIn && (
-          <NavLink
-            to={"/trends"}
-            className={({ isActive }) =>
-              isActive ? "navlink activenavlink" : "navlink"
-            }
-          >
+          <NavLink to={"/trends"} className={({ isActive }) => (isActive ? "navlink activenavlink" : "navlink")}>
             Trends
           </NavLink>
         )}
         {isLoggedIn && (
-          <NavLink
-            to={"/tracking"}
-            className={({ isActive }) =>
-              isActive ? "navlink activenavlink" : "navlink"
-            }
-          >
+          <NavLink to={"/tracking"} className={({ isActive }) => (isActive ? "navlink activenavlink" : "navlink")}>
             Tracking
           </NavLink>
         )}
       </div>
       <div className="nav-left">
         {!isLoggedIn && (
-          <NavLink
-            to={"/login"}
-            className={({ isActive }) =>
-              isActive ? "navlink activenavlink" : "navlink"
-            }
-          >
+          <NavLink to={"/login"} className={({ isActive }) => (isActive ? "navlink activenavlink" : "navlink")}>
             Login
           </NavLink>
         )}
         {!isLoggedIn && (
-          <NavLink
-            to={"/register"}
-            className={({ isActive }) =>
-              isActive ? "navlink activenavlink" : "navlink"
-            }
-          >
+          <NavLink to={"/register"} className={({ isActive }) => (isActive ? "navlink activenavlink" : "navlink")}>
             Sign Up
           </NavLink>
         )}
         {isLoggedIn && (
           <p className="navlink" style={{ cursor: "default" }}>
-            Hello, {username}
+            Hello, {capitalize(username)}
           </p>
         )}
         {isLoggedIn && (

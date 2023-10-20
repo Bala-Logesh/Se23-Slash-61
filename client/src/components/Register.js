@@ -8,7 +8,7 @@ function Register() {
   const navigate = useNavigate();
 
   const {
-    userData: { isLoggedIn },
+    userData: { isLoggedIn }
   } = useContext(AuthContext);
 
   useEffect(() => {
@@ -24,19 +24,14 @@ function Register() {
     username: "",
     email: "",
     password: "",
-    confpassword: "",
+    confpassword: ""
   });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     let { username, password, email, confpassword } = formData;
-    if (
-      username === "" ||
-      email === "" ||
-      password === "" ||
-      confpassword === ""
-    ) {
+    if (username === "" || email === "" || password === "" || confpassword === "") {
       setMsg("Please fill in all the fields");
       setRegistered(false);
       return;
@@ -48,18 +43,19 @@ function Register() {
       return;
     }
 
-    const url = "http://localhost:8000/users/";
+    const url = "http://localhost:8000/register/";
     const data = await axiosPost(url, formData);
-
+    
     if (data !== undefined) {
       // register successful, you can redirect to the login page
       setRegistered(true);
+      setMsg("");
 
       setFormData({
         email: "",
         password: "",
         confpassword: "",
-        username: "",
+        username: ""
       });
 
       setTimeout(() => {
@@ -76,12 +72,8 @@ function Register() {
     <Card>
       <p className="form-header">Hello there!</p>
       <br />
-      {!registered && msg === "" && (
-        <p className="placeholder">Placeholder for messages</p>
-      )}
-      {registered && msg === "" && (
-        <p className="success">Registration successful!</p>
-      )}
+      {!registered && msg === "" && <p className="placeholder">Placeholder for messages</p>}
+      {registered && msg === "" && <p className="success">Registration successful!</p>}
       {msg !== "" && !registered && <p className="error">{msg}</p>}
       <br />
       <form onSubmit={handleSubmit} className="form">
@@ -89,9 +81,7 @@ function Register() {
           type="text"
           placeholder="Username"
           value={formData.username}
-          onChange={(e) =>
-            setFormData({ ...formData, username: e.target.value })
-          }
+          onChange={(e) => setFormData({ ...formData, username: e.target.value })}
         />
         <br />
         <input
@@ -105,18 +95,14 @@ function Register() {
           type="password"
           placeholder="Password"
           value={formData.password}
-          onChange={(e) =>
-            setFormData({ ...formData, password: e.target.value })
-          }
+          onChange={(e) => setFormData({ ...formData, password: e.target.value })}
         />
         <br />
         <input
           type="password"
           placeholder="Confirm Password"
           value={formData.confpassword}
-          onChange={(e) =>
-            setFormData({ ...formData, confpassword: e.target.value })
-          }
+          onChange={(e) => setFormData({ ...formData, confpassword: e.target.value })}
         />
         <br />
         <button type="submit">Sign Up</button>
