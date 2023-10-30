@@ -63,6 +63,8 @@ We have fixed and added a lot of new features to slash.
 
 <p align="center"><img width="700" src="./proj2/Slash video.gif"></p>
 
+<p align="center"><img width="700" src="./proj2/Poster_reduced.jpg"></p>
+
 ---
 
 ## :rocket: Installation
